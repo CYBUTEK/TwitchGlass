@@ -140,10 +140,24 @@ namespace TwitchGlass
             }
         }
 
+        /// <summary>
+        /// Handles actions taken when the panel is opening. (Thread Safe)
+        /// </summary>
         private void IsOpening()
         {
-            this.textChannel.Focus();
-            this.textChannel.SelectAll();
+            if (InvokeRequired)
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    this.textChannel.Focus();
+                    this.textChannel.SelectAll();
+                });
+            }
+            else
+            {
+                this.textChannel.Focus();
+                this.textChannel.SelectAll();
+            }
         }
     }
 }

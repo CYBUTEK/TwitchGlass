@@ -66,6 +66,7 @@
     <Compile Include="BrowserPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Channel.cs" />
     <Compile Include="ChannelPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -89,6 +90,7 @@
     <Compile Include="ScrollPanel.Designer.cs">
       <DependentUpon>ScrollPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="ThreadManager.cs" />
     <EmbeddedResource Include="BrowserPanel.resx">
       <DependentUpon>BrowserPanel.cs</DependentUpon>
     </EmbeddedResource>

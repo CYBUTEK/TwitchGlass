@@ -14,6 +14,7 @@ namespace TwitchGlass
         private bool _showVideoControls = false;
         private bool _filteringMouse = false;
         private string _currentChannel = "";
+        private Channel _channel;
         private Icon _defaultIcon;
 
         public MainForm()
@@ -26,7 +27,14 @@ namespace TwitchGlass
             this.channelPanel.ChannelSelected += ChannelSelected;
             this.flashPanel.Resize += FlashPanelResize;
 
-            MouseCheckThread();
+            ThreadManager.StartThread(MouseCheckThread);
+
+            ThreadManager.CountChanged += ThreadCountChanged;
+        }
+
+        private void ThreadCountChanged()
+        {
+            TitleProcessor();
         }
 
         /// <summary>
@@ -34,52 +42,51 @@ namespace TwitchGlass
         /// </summary>
         private void MouseCheckThread()
         {
-            new Thread(() =>
+            bool mouseOver = false;
+
+            while (!this.IsDisposed)
             {
-                bool mouseOver = false;
-
-                while (!this.IsDisposed)
+                try
                 {
-                    try
+                    this.Invoke((MethodInvoker)delegate
                     {
-                        this.Invoke((MethodInvoker)delegate
+                        if (flashPlayer.RectangleToScreen(flashPanel.Bounds).Contains(MousePosition))
                         {
-                            if (flashPlayer.RectangleToScreen(flashPanel.Bounds).Contains(MousePosition))
+                            mouseOver = true;
+                        }
+                        else
+                        {
+                            mouseOver = false;
+                        }
+
+                        if (!_showVideoControls)
+                        {
+                            if (mouseOver && !_filteringMouse)
                             {
-                                mouseOver = true;
-                            }
-                            else
-                            {
-                                mouseOver = false;
+                                Application.AddMessageFilter(this);
+                                _filteringMouse = true;
                             }
 
-                            if (!_showVideoControls)
+                            if (_filteringMouse && !mouseOver)
                             {
-                                if (mouseOver && !_filteringMouse)
-                                {
-                                    Application.AddMessageFilter(this);
-                                    _filteringMouse = true;
-                                }
+                                Application.RemoveMessageFilter(this);
+                                _filteringMouse = false;
+                            }
+                        }
+                        else
+                        {
+                            if (_filteringMouse)
+                            {
+                                Application.RemoveMessageFilter(this);
+                                _filteringMouse = false;
+                            }
+                        }
+                    });
 
-                                if (_filteringMouse && !mouseOver)
-                                {
-                                    Application.RemoveMessageFilter(this);
-                                    _filteringMouse = false;
-                                }
-                            }
-                            else
-                            {
-                                if (_filteringMouse)
-                                {
-                                    Application.RemoveMessageFilter(this);
-                                    _filteringMouse = false;
-                                }
-                            }
-                        });
-                    }
-                    catch { break; }
+                    Thread.Sleep(100);
                 }
-            }).Start();
+                catch { break; }
+            }
         }
 
         /// <summary>
@@ -95,7 +102,7 @@ namespace TwitchGlass
                 }
                 if (e.KeyCode == Keys.W)
                 {
-                    this.channelPanel.Channel = _currentChannel;
+                    this.channelPanel.Channel = (_channel != null) ?  _channel.DisplayName : "";
                     this.channelPanel.RunScrollProcess();
                 }
                 if (e.KeyCode == Keys.S)
@@ -140,9 +147,9 @@ namespace TwitchGlass
         /// <summary>
         /// Changes the channel to the selected channel given.
         /// </summary>
-        private void ChannelSelected(string channel)
+        private void ChannelSelected(string name)
         {
-            _currentChannel = channel;
+            _currentChannel = name;
             TitleProcessor();
 
             this.flashPanel.Controls.Remove(flashPlayer);
@@ -157,88 +164,58 @@ namespace TwitchGlass
             flashPlayer.EmbedMovie = false;
             flashPlayer.AllowNetworking = "all";
             flashPlayer.AllowScriptAccess = "always";
-            flashPlayer.FlashVars = "hostname=www.twitch.tv&channel=" + channel + "&auto_play=true&start_volume=100";
+            flashPlayer.FlashVars = "hostname=www.twitch.tv&channel=" + name + "&auto_play=true&start_volume=100";
             flashPlayer.LoadMovie(0, "http://www.twitch.tv/widgets/live_embed_player.swf");
 
             FlashPanelResize(null,null);
 
-            this.chatPanel.DocumentText = "<iframe frameborder=\"0\" scrolling=\"no\" id=\"chat_embed\" src=\"http://twitch.tv/chat/embed?channel=" + channel + "&amp;popout_chat=true\" height=\"100%\" width=\"100%\"></iframe>";
+            this.chatPanel.DocumentText = "<iframe frameborder=\"0\" scrolling=\"no\" id=\"chat_embed\" src=\"http://twitch.tv/chat/embed?channel=" + name + "&amp;popout_chat=true\" height=\"100%\" width=\"100%\"></iframe>";
 
-            SetCurrentChannelName();
-            SetChannelIcon();          
+            // Create a channel object to do all of the Twitch API stuff.
+            if (_channel != null)
+            {
+                _channel.Dispose();
+            }
+            _channel = new Channel();
+            _channel.DisplayNameChanged += DisplayNameChanged;
+            _channel.IconChanged += IconChanged;
+            _channel.OnlineStatusChanged += OnlineStatusChanged;
+            _channel.Initialise(name);     
+   
         }
 
         /// <summary>
-        /// Sets the current channel name with capitalised formatting.
+        /// Calls the title processor to change the title based on the new display name.
         /// </summary>
-        private void SetCurrentChannelName()
+        private void DisplayNameChanged(Channel channel)
         {
-            new Thread(() =>
-            {
-                try
-                {
-                    WebRequest requestGetURL = WebRequest.Create("https://api.twitch.tv/kraken/channels/" + _currentChannel);
-                    Stream responseStream = requestGetURL.GetResponse().GetResponseStream();
-
-                    JObject jsonObj = JObject.Parse(new StreamReader(responseStream).ReadToEnd());
-
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        _currentChannel = (string)jsonObj["display_name"];
-                        TitleProcessor();
-                    });
-                }
-                catch { }
-            }).Start();
+            TitleProcessor();
         }
 
         /// <summary>
-        /// Sets the window icon to the channel logo icon.
+        /// Sets the window icon to the channel logo icon. (Thread Safe)
         /// </summary>
-        private void SetChannelIcon()
+        private void IconChanged(Channel sender)
         {
-            new Thread(() =>
+            if (InvokeRequired)
             {
-                try
+                Invoke((MethodInvoker)delegate
                 {
-                    WebRequest requestGetURL = WebRequest.Create("https://api.twitch.tv/kraken/channels/" + _currentChannel);
-                    Stream responseStream = requestGetURL.GetResponse().GetResponseStream();
+                    this.Icon = sender.Icon;
+                });
+            }
+            else
+            {
+                this.Icon = sender.Icon;
+            }
+        }
 
-                    JObject jsonObj = JObject.Parse(new StreamReader(responseStream).ReadToEnd());
-
-                    MemoryStream memStream;
-
-                    using (Stream response = WebRequest.Create((string)jsonObj["logo"]).GetResponse().GetResponseStream())
-                    {
-                        memStream = new MemoryStream();
-                        byte[] buffer = new byte[1024];
-                        int byteCount;
-
-                        do
-                        {
-                            byteCount = response.Read(buffer, 0, buffer.Length);
-                            memStream.Write(buffer, 0, byteCount);
-                        } while (byteCount > 0);
-                    }
-
-                    Bitmap bitmap = new Bitmap(Image.FromStream(memStream));
-
-                    if (bitmap != null)
-                    {
-                        this.Invoke((MethodInvoker)delegate
-                        {
-                            this.Icon = Icon.FromHandle(bitmap.GetHicon());
-                        });
-                    }
-                }
-                catch
-                {
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        this.Icon = _defaultIcon;
-                    });
-                }
-            }).Start();
+        /// <summary>
+        /// Calls the title processor to change the title based on the new online status.
+        /// </summary>
+        private void OnlineStatusChanged(Channel sender)
+        {
+            TitleProcessor();
         }
 
         /// <summary>
@@ -261,27 +238,63 @@ namespace TwitchGlass
         }
 
         /// <summary>
-        /// Processes and sets the title based on the applications current settings.
+        /// Processes and sets the title based on the applications current settings. (Thread Safe)
         /// </summary>
         private void TitleProcessor()
         {
             string title = "";
 
-            if (_currentChannel != "")
+            if (_channel != null && _channel.DisplayName != "")
             {
-                title = "Watching: " + _currentChannel + " - TwitchGlass v" + Program.VERSION;
+                if (_channel.IsOnline)
+                {
+                    if (_channel.Game != "")
+                    {
+                        title = _channel.DisplayName + " is playing " + _channel.Game + " - ";
+                    }
+                    else
+                    {
+                        title = _channel.DisplayName + " is Online - ";
+                    }
+                }
+                else
+                {
+                    title = _channel.DisplayName + " is Offline - ";
+                }
             }
-            else
-            {
-                title = "TwitchGlass v" + Program.VERSION;
-            }
+
+            title += "TwitchGlass v" + Program.VERSION + " (Threads: " + (ThreadManager.ThreadCount + 1).ToString() + ")";
 
             if (this.TopMost)
             {
                 title += " - Always On Top";
             }
 
-            this.Text = title + " - Press F1 for Help!";
+            // Update the window title in a thread safe way.
+            try
+            {
+                if (InvokeRequired)
+                {
+                    Invoke((MethodInvoker)delegate
+                    {
+                        this.Text = title + " - Press F1 for Help!";
+                    });
+                }
+                else
+                {
+                    this.Text = title + " - Press F1 for Help!";
+                }
+            }
+            catch { }
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            if (_channel != null)
+            {
+                _channel.Dispose();
+            }
+            base.OnClosed(e);
         }
 
         /// <summary>
