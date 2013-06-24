@@ -8,7 +8,7 @@ namespace TwitchGlass
 {
     static class Program
     {
-        public const string VERSION = "0.1.0.4";
+        public const string VERSION = "0.1.0.5";
 
         /// <summary>
         /// The main entry point for the application.

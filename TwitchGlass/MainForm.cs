@@ -169,7 +169,7 @@ namespace TwitchGlass
 
             FlashPanelResize(null,null);
 
-            this.chatPanel.DocumentText = "<iframe frameborder=\"0\" scrolling=\"no\" id=\"chat_embed\" src=\"http://twitch.tv/chat/embed?channel=" + name + "&amp;popout_chat=true\" height=\"100%\" width=\"100%\"></iframe>";
+            this.chatPanel.DocumentText = "<html><head></head><body style=\"margin: 0px; padding 0px; width: 350px; \"><iframe frameborder=\"0\" scrolling=\"no\" id=\"chat_embed\" src=\"http://twitch.tv/chat/embed?channel=" + name + "&amp;popout_chat=true\" height=\"100%\" width=\"350\"></iframe></body></html>";
 
             // Create a channel object to do all of the Twitch API stuff.
             if (_channel != null)
