@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TwitchGlass")]
+[assembly: AssemblyTitle("GlassHouse")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TwitchGlass")]
+[assembly: AssemblyProduct("GlassHouse")]
 [assembly: AssemblyCopyright("Copyright © CYBUTEK 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("75ece73c-848e-43e9-a72b-e39ece875233")]
+[assembly: Guid("0cc1a0c8-8a6b-4016-b1e7-68178c97e5c0")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,4 +32,4 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion(GlassHouse.Versions.TwitchGlass)]
+[assembly: AssemblyVersion(GlassHouse.Versions.GlassHouse)]

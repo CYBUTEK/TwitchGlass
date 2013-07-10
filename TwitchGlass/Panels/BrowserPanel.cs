@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using System.Windows.Forms;
 
-namespace TwitchGlass
+namespace TwitchGlass.Panels
 {
     public class BrowserPanel : ScrollPanel
     {

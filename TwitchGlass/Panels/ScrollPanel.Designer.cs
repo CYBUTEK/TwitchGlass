@@ -1,4 +1,4 @@
-﻿namespace TwitchGlass
+﻿namespace TwitchGlass.Panels
 {
     partial class ScrollPanel
     {

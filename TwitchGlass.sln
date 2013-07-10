@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchGlass", "TwitchGlass\TwitchGlass.csproj", "{9F848A06-4841-45A0-AD7C-525A9C8F90F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlassHouse", "GlassHouse\GlassHouse.csproj", "{1A29CF5B-9F2F-4161-9632-BB4AB5B40C4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitchAgent", "TwitchAgent\TwitchAgent.csproj", "{5787D71A-A728-4805-AA3C-A2765045863F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +17,14 @@ Global
 		{9F848A06-4841-45A0-AD7C-525A9C8F90F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F848A06-4841-45A0-AD7C-525A9C8F90F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F848A06-4841-45A0-AD7C-525A9C8F90F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A29CF5B-9F2F-4161-9632-BB4AB5B40C4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A29CF5B-9F2F-4161-9632-BB4AB5B40C4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A29CF5B-9F2F-4161-9632-BB4AB5B40C4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A29CF5B-9F2F-4161-9632-BB4AB5B40C4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5787D71A-A728-4805-AA3C-A2765045863F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5787D71A-A728-4805-AA3C-A2765045863F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5787D71A-A728-4805-AA3C-A2765045863F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5787D71A-A728-4805-AA3C-A2765045863F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

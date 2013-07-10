@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace TwitchGlass
+namespace GlassHouse
 {
     public sealed class ThreadManager
     {

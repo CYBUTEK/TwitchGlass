@@ -27,12 +27,11 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>
-    </DefineConstants>
+    <OutputPath>..\Output\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -52,22 +51,16 @@
       <HintPath>..\Libraries\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrowserPanel.cs">
+    <Compile Include="Panels\BrowserPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Channel.cs" />
-    <Compile Include="ChannelPanel.cs">
+    <Compile Include="Panels\ChannelPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MainForm.cs">
@@ -84,17 +77,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScrollPanel.cs">
+    <Compile Include="Panels\ScrollPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ScrollPanel.Designer.cs">
+    <Compile Include="Panels\ScrollPanel.Designer.cs">
       <DependentUpon>ScrollPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="ThreadManager.cs" />
-    <EmbeddedResource Include="BrowserPanel.resx">
+    <EmbeddedResource Include="Panels\BrowserPanel.resx">
       <DependentUpon>BrowserPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ChannelPanel.resx">
+    <EmbeddedResource Include="Panels\ChannelPanel.resx">
       <DependentUpon>ChannelPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
@@ -113,7 +105,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="ScrollPanel.resx">
+    <EmbeddedResource Include="Panels\ScrollPanel.resx">
       <DependentUpon>ScrollPanel.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
@@ -125,9 +117,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="AxShockwaveFlashObjects">
@@ -165,6 +154,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\selected_channel_middle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GlassHouse\GlassHouse.csproj">
+      <Project>{1a29cf5b-9f2f-4161-9632-bb4ab5b40c4b}</Project>
+      <Name>GlassHouse</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

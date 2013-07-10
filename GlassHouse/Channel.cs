@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Threading;
 using System.IO;
 using System.Net;
 using Newtonsoft.Json.Linq;
 
-namespace TwitchGlass
+namespace GlassHouse
 {
     public class Channel : IDisposable
     {
@@ -63,6 +62,12 @@ namespace TwitchGlass
             }
         }
 
+        private Icon _defaultIcon;
+        /// <summary>
+        /// Gets and sets the default channel icon.
+        /// </summary>
+        public Icon DefaultIcon { get { return _defaultIcon; } private set { _defaultIcon = value; } }
+
         private string _displayName = "";
         /// <summary>
         /// Gets the display name.
@@ -89,8 +94,9 @@ namespace TwitchGlass
             get { return _game; }
             private set
             {
+                string oldGame = _game;
                 _game = value;
-                if (GameChanged != null)
+                if (_game != oldGame && GameChanged != null)
                 {
                     GameChanged.Invoke(this);
                 }
@@ -121,6 +127,12 @@ namespace TwitchGlass
             }
         }
 
+        public Channel(Icon defaultIcon)
+        {
+            this.DefaultIcon = defaultIcon;
+            this.Icon = _defaultIcon;
+        }
+
         /// <summary>
         /// Initialises the channel with details from the twitch servers.
         /// </summary>
@@ -129,8 +141,8 @@ namespace TwitchGlass
             _name = name;
             _displayName = _name;
 
-            ThreadManager.StartThread(IterativeUpdaterThread);
             ThreadManager.StartThread(ChannelSetupThread);
+            ThreadManager.StartThread(IterativeUpdaterThread);
         }
 
         // Sets basic channel details.
@@ -171,7 +183,7 @@ namespace TwitchGlass
             }
             catch
             {
-                this.Icon = Properties.Resources.icon;
+                this.Icon = this.DefaultIcon;
             }
         }
 
@@ -193,7 +205,17 @@ namespace TwitchGlass
                         this.Game = (string)jsonObject["stream"]["game"];
                     }
 
-                    Thread.Sleep(100);
+                    for (int i = 0; i < 30; i++)
+                    {
+                        if (!_isDisposed && this != null)
+                        {
+                            Thread.Sleep(1000);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
                 }
                 catch { return; }
             }

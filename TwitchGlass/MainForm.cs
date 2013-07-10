@@ -6,6 +6,8 @@ using System.IO;
 using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TwitchGlass.Panels;
+using GlassHouse;
 
 namespace TwitchGlass
 {
@@ -176,10 +178,11 @@ namespace TwitchGlass
             {
                 _channel.Dispose();
             }
-            _channel = new Channel();
+            _channel = new Channel(Properties.Resources.icon);
             _channel.DisplayNameChanged += DisplayNameChanged;
             _channel.IconChanged += IconChanged;
             _channel.OnlineStatusChanged += OnlineStatusChanged;
+            _channel.GameChanged += OnlineStatusChanged;
             _channel.Initialise(name);     
    
         }
@@ -187,7 +190,7 @@ namespace TwitchGlass
         /// <summary>
         /// Calls the title processor to change the title based on the new display name.
         /// </summary>
-        private void DisplayNameChanged(Channel channel)
+        private void DisplayNameChanged(Channel sender)
         {
             TitleProcessor();
         }
@@ -263,7 +266,7 @@ namespace TwitchGlass
                 }
             }
 
-            title += "TwitchGlass v" + Program.VERSION + " (Threads: " + (ThreadManager.ThreadCount + 1).ToString() + ")";
+            title += "TwitchGlass v" + Versions.TwitchGlass + " (Threads: " + (ThreadManager.ThreadCount + 1).ToString() + ")";
 
             if (this.TopMost)
             {
@@ -292,6 +295,7 @@ namespace TwitchGlass
         {
             if (_channel != null)
             {
+                ThreadManager.CloseRequested = true;
                 _channel.Dispose();
             }
             base.OnClosed(e);

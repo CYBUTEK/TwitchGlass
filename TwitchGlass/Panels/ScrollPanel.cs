@@ -3,8 +3,9 @@ using System.Threading;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Diagnostics;
+using GlassHouse;
 
-namespace TwitchGlass
+namespace TwitchGlass.Panels
 {
     public partial class ScrollPanel : UserControl
     {

@@ -31,8 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.flashPlayer = new AxShockwaveFlashObjects.AxShockwaveFlash();
             this.flashPanel = new System.Windows.Forms.Panel();
-            this.chatPanel = new TwitchGlass.BrowserPanel();
-            this.channelPanel = new TwitchGlass.ChannelPanel();
+            this.chatPanel = new TwitchGlass.Panels.BrowserPanel();
+            this.channelPanel = new TwitchGlass.Panels.ChannelPanel();
             ((System.ComponentModel.ISupportInitialize)(this.flashPlayer)).BeginInit();
             this.flashPanel.SuspendLayout();
             this.SuspendLayout();
@@ -65,7 +65,7 @@
             this.chatPanel.Name = "chatPanel";
             this.chatPanel.OpenSize = 350;
             this.chatPanel.Size = new System.Drawing.Size(0, 670);
-            this.chatPanel.State = TwitchGlass.ScrollPanel.PanelState.Closed;
+            this.chatPanel.State = TwitchGlass.Panels.ScrollPanel.PanelState.Closed;
             this.chatPanel.TabIndex = 1;
             // 
             // channelPanel
@@ -77,7 +77,7 @@
             this.channelPanel.Name = "channelPanel";
             this.channelPanel.OpenSize = 50;
             this.channelPanel.Size = new System.Drawing.Size(1280, 50);
-            this.channelPanel.State = TwitchGlass.ScrollPanel.PanelState.Open;
+            this.channelPanel.State = TwitchGlass.Panels.ScrollPanel.PanelState.Open;
             this.channelPanel.TabIndex = 3;
             // 
             // MainForm
@@ -103,21 +103,10 @@
 
         #endregion
 
-        private BrowserPanel chatPanel;
+        private TwitchGlass.Panels.BrowserPanel chatPanel;
         private AxShockwaveFlashObjects.AxShockwaveFlash flashPlayer;
-        private ChannelPanel channelPanel;
+        private TwitchGlass.Panels.ChannelPanel channelPanel;
         private System.Windows.Forms.Panel flashPanel;
-
-
-
-
-
-
-
-
-
-
-
     }
 }
 
