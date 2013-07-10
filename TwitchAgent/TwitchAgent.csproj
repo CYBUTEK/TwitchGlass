@@ -50,7 +50,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="TrayIcon.cs">
+    <Compile Include="TrayAgent.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

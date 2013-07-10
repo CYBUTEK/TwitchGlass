@@ -9,26 +9,44 @@ namespace TwitchAgent
 {
     public partial class Notification : Form
     {
+        private static int _notificationNumber = 0;
+
+        private static int NextNotificationNumber()
+        {
+            _notificationNumber++;
+            return _notificationNumber;
+        }
+
+        private static void PrevNotificationNumber()
+        {
+            _notificationNumber--;
+        }
+
+        private string _channelName;
+
         public Notification(Channel channel)
         {
+            NextNotificationNumber();
+
             InitializeComponent();
 
+            _channelName = channel.Name;
             if (channel.Icon != null)
             {
                 channelIcon.BackgroundImage = channel.Icon.ToBitmap();
+                channelIcon.Click += IconClick;
             }
 
             name.Text = channel.DisplayName;
-            if (channel.IsOnline)
-            {
-                status.Text = "is online!";
-            }
-            else
-            {
-                status.Text = "Is Offline!";
-            }
+            status.Text = "is playing " + channel.Game;
 
             ThreadManager.StartThread(TimerThread);
+        }
+
+
+        private void IconClick(object sender, EventArgs e)
+        {
+            Process.Start("http://www.twitch.tv/" + _channelName);
         }
 
         private void TimerThread()
@@ -50,12 +68,18 @@ namespace TwitchAgent
 
         protected override void OnLoad(EventArgs e)
         {
-            this.Left = Screen.PrimaryScreen.WorkingArea.Right - this.Width;
-            this.Top = Screen.PrimaryScreen.WorkingArea.Bottom - this.Height;
+            this.Left = Screen.PrimaryScreen.WorkingArea.Right - this.Width - 2;
+            this.Top = Screen.PrimaryScreen.WorkingArea.Bottom - ((this.Height + 2) * _notificationNumber);
 
             this.BackgroundImage = Resources.notification_background;
 
             base.OnLoad(e);
+        }
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+             PrevNotificationNumber();
+ 	         base.OnClosing(e);
         }
 
         protected override bool ShowWithoutActivation { get { return true; } }

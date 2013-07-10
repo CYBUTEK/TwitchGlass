@@ -183,8 +183,7 @@ namespace TwitchGlass
             _channel.IconChanged += IconChanged;
             _channel.OnlineStatusChanged += OnlineStatusChanged;
             _channel.GameChanged += OnlineStatusChanged;
-            _channel.Initialise(name);     
-   
+            _channel.Initialise(name);   
         }
 
         /// <summary>
