@@ -179,43 +179,41 @@ namespace TwitchGlass
                 _channel.Dispose();
             }
             _channel = new Channel(Properties.Resources.icon);
-            _channel.DisplayNameChanged += DisplayNameChanged;
-            _channel.IconChanged += IconChanged;
-            _channel.OnlineStatusChanged += OnlineStatusChanged;
-            _channel.GameChanged += OnlineStatusChanged;
+            _channel.Loaded += ChannelLoaded;
+            _channel.GameChanged += GameChanged;
             _channel.Initialise(name);   
         }
 
         /// <summary>
-        /// Calls the title processor to change the title based on the new display name.
+        /// Runs when a channel is loaded.  Occures when the online state is changed.
         /// </summary>
-        private void DisplayNameChanged(Channel sender)
-        {
-            TitleProcessor();
-        }
-
-        /// <summary>
-        /// Sets the window icon to the channel logo icon. (Thread Safe)
-        /// </summary>
-        private void IconChanged(Channel sender)
+        private void ChannelLoaded(Channel sender)
         {
             if (InvokeRequired)
             {
                 Invoke((MethodInvoker)delegate
                 {
-                    this.Icon = sender.Icon;
+                    if (this.Icon != sender.Icon)
+                    {
+                        this.Icon = sender.Icon;
+                    }
                 });
             }
             else
             {
-                this.Icon = sender.Icon;
+                if (this.Icon != sender.Icon)
+                {
+                    this.Icon = sender.Icon;
+                }
             }
+
+            TitleProcessor();
         }
 
         /// <summary>
-        /// Calls the title processor to change the title based on the new online status.
+        /// Runs when the channel game changes.
         /// </summary>
-        private void OnlineStatusChanged(Channel sender)
+        private void GameChanged(Channel sender)
         {
             TitleProcessor();
         }
@@ -290,6 +288,7 @@ namespace TwitchGlass
             catch { }
         }
 
+        // Tells the application and threads to close.
         protected override void OnClosed(EventArgs e)
         {
             if (_channel != null)
