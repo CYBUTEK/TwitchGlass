@@ -150,6 +150,7 @@ namespace TwitchAgent
                     Invoke((MethodInvoker)delegate
                     {
                         this.Top = (int)_currentTopPosition;
+                        this.Refresh();
                     });
                 }
                 catch { break; }
@@ -194,6 +195,7 @@ namespace TwitchAgent
                     Invoke((MethodInvoker)delegate
                     {
                         this.Top = (int)_currentTopPosition;
+                        this.Refresh();
                     });
                 }
                 catch { break; }
