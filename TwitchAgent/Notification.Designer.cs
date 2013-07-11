@@ -51,9 +51,9 @@
             this.name.BackColor = System.Drawing.Color.Transparent;
             this.name.Font = new System.Drawing.Font("Arial Black", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.name.ForeColor = System.Drawing.Color.White;
-            this.name.Location = new System.Drawing.Point(51, 5);
+            this.name.Location = new System.Drawing.Point(52, 5);
             this.name.Name = "name";
-            this.name.Size = new System.Drawing.Size(237, 24);
+            this.name.Size = new System.Drawing.Size(243, 24);
             this.name.TabIndex = 1;
             this.name.Text = "Channel Name";
             this.name.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -65,9 +65,9 @@
             this.status.BackColor = System.Drawing.Color.Transparent;
             this.status.Font = new System.Drawing.Font("Arial Black", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.status.ForeColor = System.Drawing.Color.Gainsboro;
-            this.status.Location = new System.Drawing.Point(51, 26);
+            this.status.Location = new System.Drawing.Point(52, 26);
             this.status.Name = "status";
-            this.status.Size = new System.Drawing.Size(237, 15);
+            this.status.Size = new System.Drawing.Size(243, 15);
             this.status.TabIndex = 2;
             this.status.Text = "Channel Status";
             this.status.TextAlign = System.Drawing.ContentAlignment.BottomCenter;

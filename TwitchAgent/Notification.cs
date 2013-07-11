@@ -74,7 +74,7 @@ namespace TwitchAgent
             }
 
             name.Text = channel.DisplayName;
-            status.Text = "is playing " + channel.Game;
+            status.Text = channel.Game;
 
             ThreadManager.StartThread(TimerThread);
         }
