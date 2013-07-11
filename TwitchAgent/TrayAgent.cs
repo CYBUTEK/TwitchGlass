@@ -26,7 +26,7 @@ namespace TwitchAgent
         public TrayAgent()
         {
             _trayMenu = new ContextMenu();
-            _trayMenu.MenuItems.Add("Show");
+            _trayMenu.MenuItems.Add("Re-Show Notifications", ReShowNotifications);
             _trayMenu.MenuItems.Add("-");
             _trayMenu.MenuItems.Add("Exit", ExitClicked);
 
@@ -40,7 +40,7 @@ namespace TwitchAgent
 
             _myChannel = new Channel(Resources.icon);
             _myChannel.FollowingPopulated += FollowingPopulated;
-            _myChannel.Initialise("ttlabambatt");
+            _myChannel.Initialise("cybutek");
             _myChannel.PopulateFollowing();
         }
 
@@ -55,6 +55,11 @@ namespace TwitchAgent
             }
 
             ChannelManager.Instance.NotificationsEnabled = true;
+        }
+
+        private void ReShowNotifications(object sender, EventArgs e)
+        {
+            ChannelManager.Instance.ReShowNotifications();
         }
 
         // Runs when the exit item is clicked.

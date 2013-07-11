@@ -56,6 +56,17 @@ namespace TwitchAgent
             _channels.Add(channel);
         }
 
+        public void ReShowNotifications()
+        {
+            foreach (Channel channel in _channels)
+            {
+                if (channel.HasLoaded)
+                {
+                    ChannelLoaded(channel);
+                }
+            }
+        }
+
         // Runs when the status of the channel changes.
         private void ChannelLoaded(Channel sender)
         {
@@ -67,6 +78,10 @@ namespace TwitchAgent
                     {
                         new Notification(sender).Show();
                     });
+                }
+                else
+                {
+                    new Notification(sender).Show();
                 }
             }
         }
