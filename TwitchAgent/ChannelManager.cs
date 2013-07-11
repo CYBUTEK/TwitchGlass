@@ -50,6 +50,7 @@ namespace TwitchAgent
         {
             Channel channel = new Channel(Resources.icon);
             channel.Loaded += ChannelLoaded;
+            channel.GameChanged += ChannelLoaded;
             channel.Initialise(name);
 
             _channels.Add(channel);

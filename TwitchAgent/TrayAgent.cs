@@ -40,7 +40,7 @@ namespace TwitchAgent
 
             _myChannel = new Channel(Resources.icon);
             _myChannel.FollowingPopulated += FollowingPopulated;
-            _myChannel.Initialise("cybutek");
+            _myChannel.Initialise("ttlabambatt");
             _myChannel.PopulateFollowing();
         }
 

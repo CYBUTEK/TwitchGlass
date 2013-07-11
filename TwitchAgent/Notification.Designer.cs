@@ -51,9 +51,9 @@
             this.name.BackColor = System.Drawing.Color.Transparent;
             this.name.Font = new System.Drawing.Font("Arial Black", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.name.ForeColor = System.Drawing.Color.White;
-            this.name.Location = new System.Drawing.Point(76, 5);
+            this.name.Location = new System.Drawing.Point(51, 5);
             this.name.Name = "name";
-            this.name.Size = new System.Drawing.Size(213, 24);
+            this.name.Size = new System.Drawing.Size(237, 24);
             this.name.TabIndex = 1;
             this.name.Text = "Channel Name";
             this.name.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -61,15 +61,17 @@
             // status
             // 
             this.status.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.status.AutoEllipsis = true;
             this.status.BackColor = System.Drawing.Color.Transparent;
             this.status.Font = new System.Drawing.Font("Arial Black", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.status.ForeColor = System.Drawing.Color.Gainsboro;
-            this.status.Location = new System.Drawing.Point(76, 17);
+            this.status.Location = new System.Drawing.Point(51, 26);
             this.status.Name = "status";
-            this.status.Size = new System.Drawing.Size(213, 24);
+            this.status.Size = new System.Drawing.Size(237, 15);
             this.status.TabIndex = 2;
             this.status.Text = "Channel Status";
             this.status.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.status.UseMnemonic = false;
             // 
             // Notification
             // 
@@ -77,9 +79,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(65)))), ((int)(((byte)(165)))));
             this.ClientSize = new System.Drawing.Size(300, 50);
-            this.Controls.Add(this.name);
             this.Controls.Add(this.channelIcon);
             this.Controls.Add(this.status);
+            this.Controls.Add(this.name);
             this.Font = new System.Drawing.Font("Arial Black", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
